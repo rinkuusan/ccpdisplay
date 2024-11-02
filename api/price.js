@@ -29,7 +29,7 @@ const pairABI = [
 // コントラクトインスタンスを作成
 const pairContract = new web3.eth.Contract(pairABI, pairAddress);
 
-// getReservesメソッドのチェックと価格取得関数
+// 元のコード内にある関数を上書き
 async function getCCPPriceInWOAS() {
   try {
     // getReservesメソッドが存在するかチェック
@@ -38,8 +38,12 @@ async function getCCPPriceInWOAS() {
       return null;
     }
 
+    console.log("getReservesメソッドが存在します。リザーブを取得します...");
+    
     // getReservesメソッドを呼び出してリザーブを取得
     const reserves = await pairContract.methods.getReserves().call();
+    
+    console.log("取得したリザーブ:", reserves);
     
     // CCPとWOASのリザーブ量
     const reserveCCP = reserves._reserve0;
@@ -47,13 +51,14 @@ async function getCCPPriceInWOAS() {
 
     // CCPの価格をWOASで計算
     const price = reserveWOAS / reserveCCP;
-    console.log("取得した価格 (CCP/WOAS):", price);
+    console.log("計算した価格 (CCP/WOAS):", price);
     return price;
   } catch (error) {
-    console.error('エラー:', error);
+    console.error('エラー発生:', error);
     return null;
   }
 }
+
 
 // APIエンドポイント
 app.get('/api/price', async (req, res) => {
