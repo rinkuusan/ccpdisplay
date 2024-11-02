@@ -3,7 +3,6 @@ const express = require('express');
 const app = express();
 const port = process.env.PORT || 3000;
 
-// RPCエンドポイントに接続
 const web3 = new Web3('https://rpc.defi-verse.org/');
 
 // CCP-WOASペアのプールアドレス
@@ -26,10 +25,8 @@ const pairABI = [
   }
 ];
 
-// コントラクトインスタンスを作成
 const pairContract = new web3.eth.Contract(pairABI, pairAddress);
 
-// 元のコード内にある関数を上書き
 async function getCCPPriceInWOAS() {
   try {
     // getReservesメソッドが存在するかチェック
@@ -54,11 +51,12 @@ async function getCCPPriceInWOAS() {
     console.log("計算した価格 (CCP/WOAS):", price);
     return price;
   } catch (error) {
-    console.error('エラー発生:', error);
+    // エラー内容を出力
+    console.error('getReservesメソッドの呼び出しでエラーが発生しました:', error.message);
+    console.error('スタックトレース:', error.stack);
     return null;
   }
 }
-
 
 // APIエンドポイント
 app.get('/api/price', async (req, res) => {
