@@ -1,0 +1,13 @@
+{
+  "name": "dex-price-display",
+  "version": "1.0.0",
+  "description": "Display specific DEX pair prices",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "web3": "^1.6.1",
+    "express": "^4.17.1"
+  }
+}
